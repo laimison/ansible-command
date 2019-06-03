@@ -1,0 +1,19 @@
+---
+- name: Hello
+  hosts: servers
+  user: your_user
+  sudo: yes
+
+  tasks:
+  - name: Ensure SELinux is set to enforcing mode
+    lineinfile:
+      path: /tmp/puppet.conf
+      regexp: '^    environment = '
+      line: '    environment = your_environment'
+
+  - name: Run Command
+    shell: "cat /tmp/puppet.conf | grep environment"
+    register: myvar
+
+  - debug: msg={{ myvar.stdout }}
+  # - debug: msg={{ myvar.stderr }}
